@@ -26,5 +26,27 @@ Add the iOS platform:
 	cd kick-the-tires/
 	cordova platform add ios
 
+Sanity check:
+
+	cordova platforms ls
+
+... should output: [ 'ios' ]
+
+## Build
+
+Build your app for iOS:
+
+	cordova build ios
+
+And open it up in the simulator:
+
+	cordova emulate ios
+
+## Add a plugin
+
+I'll add the File plugin:
+
+	cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-file.git
+
 
 
