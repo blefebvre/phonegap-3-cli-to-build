@@ -1,13 +1,13 @@
-phonegap-3-cli-to-build
-=======================
+PhoneGap 3.0 - CLI to build
+===========================
 
-An app detailing the steps I took to create an app via the CLI and build it on PhoneGap build. I followed [these instructions](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface).
+This repo details the steps I took to create an app via the CLI, add a plugin, and build it remotely on PhoneGap build. I followed a post from [@cfjedimaster](http://www.raymondcamden.com/index.cfm/2013/7/19/PhoneGap-30-Released--Things-You-Should-Know) and the PhoneGap CLI help/readme. I avoided [these cordova docs](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface).
 
 ## Environment
 
 Install PhoneGap via npm:
 
-	npm install -g cordova
+	npm install -g phonegap
 
 Install ios-sim via homebrew:
 
@@ -17,48 +17,48 @@ Install ios-sim via homebrew:
 
 Create the app:
 
-	cordova create kick-the-tires "com.brucelefebvre" "kick the tires"
+	phonegap create kick-the-tires --id "com.brucelefebvre.kick-the-tires" --name "kick-the-tires"
 
-Install the Xcode command line tools to build for iOS (see [these docs](http://docs.phonegap.com/en/3.0.0/guide_platforms_ios_index.md.html#iOS%20Platform%20Guide)).
+Install the Xcode command line tools in order to build for iOS (see [these docs](http://docs.phonegap.com/en/3.0.0/guide_platforms_ios_index.md.html#iOS%20Platform%20Guide)).
 
-Add the iOS platform:
+Add the File plugin:
 
-	cd kick-the-tires/
-	cordova platform add ios
+	phonegap local plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-file.git
 
 Sanity check:
 
-	cordova platforms ls
+	phonegap local plugin list
 
-... should output: [ 'ios' ]
+... should output: [phonegap] org.apache.cordova.core.file
 
 ## Build
 
-Build your app for iOS:
+Build and run your app in the iOS sim:
 
-	cordova build ios
+	phonegap run ios
 
-And open it up in the simulator:
+Your app should appear in the iOS sim, with "DEVICE IS READY" in green.
 
-	cordova emulate ios
+## Plugin use
 
-## Add a plugin
+Ensure the plugin is functional. Replace the onDeviceReady (in www/js/index.js) function with:
 
-I'll add the File plugin:
-
-	cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-file.git
-
-Check:
-
-	cordova plugin ls
-
-... should output: [ 'org.apache.cordova.core.file' ]
+	onDeviceReady: function() {
+		app.receivedEvent('deviceready');
+		// Try out the File API
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+			function(fileSystem) {
+				// File success
+				alert(fileSystem.root.name);
+			},
+			function(evt) {
+				// File fail
+				alert(evt.target.error.code);
+			}
+		);
+	},
 
 ## Build remotely with PhoneGap build
-
-You will need the PhoneGap CLI for this (details on its usage were [found here](https://github.com/mwbrooks/phonegap-cli)):
-	
-	npm install -g phonegap
 
 Login using your [PhoneGap build](https://build.phonegap.com) credentials:
 
@@ -68,7 +68,13 @@ Build and run:
 
 	phonegap remote run ios
 
-Note: You need to upload a certificate and provisioning profile to PhoneGap build to run the app on a device.
+Note: You need to upload a certificate and provisioning profile to PhoneGap build to build & run the app on a device.
 
-Scan the QRcode with your device to install.
+Scan the QR code with your device to install.
 
+The QR code printed to the console did not work for me, but the [online version](https://build.phonegap.com/apps) did.
+
+## Resources
+
+[PhoneGap 3.0 Released - Things You Should Know](http://www.raymondcamden.com/index.cfm/2013/7/19/PhoneGap-30-Released--Things-You-Should-Know) - Raymond Camden
+[PhoneGap and PhoneGap/Build command-line interface](https://github.com/mwbrooks/phonegap-cli) - Github

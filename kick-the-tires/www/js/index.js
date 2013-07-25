@@ -35,14 +35,16 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         // Try out the File API
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, this.onFileSystemSuccess, function(evt) {
-            // file fail
-            alert(evt.target.error.code);
-        });
-    },
-    onFileSystemSuccess: function(fileSystem) {
-        alert(fileSystem.name);
-        alert(fileSystem.root.name);
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+            function(fileSystem) {
+                // File success
+                alert(fileSystem.root.name);
+            },
+            function(evt) {
+                // File fail
+                alert(evt.target.error.code);
+            }
+        );
     },
 
     // Update DOM on a Received Event

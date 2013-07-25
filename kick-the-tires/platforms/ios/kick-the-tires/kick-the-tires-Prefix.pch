@@ -17,7 +17,7 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'kick the tires' target in the 'kick the tires' project
+// Prefix header for all source files of the 'kick-the-tires' target in the 'kick-the-tires' project
 //
 
 #ifdef __OBJC__

@@ -19,7 +19,7 @@
 
 //
 //  MainViewController.h
-//  kick the tires
+//  kick-the-tires
 //
 //  Created by ___FULLUSERNAME___ on ___DATE___.
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
