@@ -34,7 +34,17 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        // Try out the File API
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, this.onFileSystemSuccess, function(evt) {
+            // file fail
+            alert(evt.target.error.code);
+        });
     },
+    onFileSystemSuccess: function(fileSystem) {
+        alert(fileSystem.name);
+        alert(fileSystem.root.name);
+    },
+
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
